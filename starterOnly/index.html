@@ -73,7 +73,7 @@
                   minlength="2"
                 
                 /><br>
-                <p class="errorMessage">Veuillez entrer 2 caractères ou plus pour le champ du prénon.</p>
+                <p id="errorMsg-first"></p>
               </div>
               <div
                 class="formData"  data-error-visible="false">
@@ -84,7 +84,7 @@
                   id="last"
                   name="last"
                 /><br>
-                <p class="errorMessage">Veuillez entrer 2 caractères ou plus pour le champ du nom.</p>
+                <p id="errorMsg-last"></p>
               </div>
               <div
                 class="formData"  data-error-visible="false">
@@ -95,7 +95,7 @@
                   id="email"
                   name="email"
                 /><br>
-                <p class="errorMessage"> Veuillez entrer email valide.</p>
+                <p id="errorMsg-email"></p>
               </div>
               <div
                 class="formData"  data-error-visible="false">
@@ -106,7 +106,7 @@
                   id="birthdate"
                   name="birthdate"
                 /><br>
-                <p class="errorMessage">Veuillez entrer votre date de naissance</p>
+                <p id="errorMsg-birthdate"></p>
               </div>
               <div
                 class="formData"  data-error-visible="false">
@@ -115,7 +115,7 @@
               </div>
               <p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
               <div
-                class="formData">
+                class="formData" data-error-visible="false">
                 <input
                   class="checkbox-input"
                   type="radio"
@@ -182,12 +182,12 @@
                   <span class="checkbox-icon"></span>
                   Portland</label
                 >
-                <p class="errorMsg">Veuillez selectionner un tournoi</p>
+                <p id="errorMsg-tournoi"></p>
               </div>
             
 
               <div
-                class="formData">
+                class="formData" data-error-visible="false">
                 <input
                   class="checkbox-input"
                   type="checkbox"

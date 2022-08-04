@@ -224,7 +224,7 @@ main {
   margin: 0 auto;
   border-radius: 7px;
   font-size: 1rem;
-  padding: 12px 82px ;
+  padding: 12px 82px;
   color: #fff;
   cursor: pointer;
   border: 0;
@@ -276,9 +276,9 @@ input {
 }
 
 input[data-error]::after {
-    content: attr(data-error);
-    font-size: 0.4em;
-    color: red;
+  content: attr(data-error);
+  font-size: 0.4em;
+  color: red;
 }
 .checkbox-label,
 .checkbox2-label {
@@ -371,7 +371,6 @@ input[data-error]::after {
 }
 .btn-submit,
 .btn-signup {
-
   background: #fe142f;
   display: block;
   margin: 0 auto;
@@ -577,10 +576,11 @@ footer {
 }
 
 /* ajout css */
-
+/* 
 .errorMessage {
   display: none;
 }
-.errorMsg {
+.errorMsg,
+.errorMsg-first {
   display: none;
-}
+} */
