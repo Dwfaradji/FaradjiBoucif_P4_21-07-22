@@ -18,25 +18,27 @@ const email = document.getElementById("email");
 const birthdate = document.getElementById("birthdate");
 const quantity = document.getElementById("quantity");
 const tournoi = document.querySelectorAll('input[type=radio][name="location"]');
+const selectCheckboxCondition = document.getElementById("checkbox1");
 
 const errorMsg = document.querySelectorAll(".errorMessage");
 const btnSubmit = document.querySelector(".btn-submit");
 const confirmationPage = document.querySelector(".bground2");
-
+const test = document.querySelectorAll(".text-control");
 // launch modal event
 modalBtn.forEach((btn) => {
   btn.addEventListener("click", launchModal);
 });
+
 // launch modal form
-function launchModal() {
+function launchModal(e) {
   modalbg.style.display = "block";
   infoForm();
-  checkFormValidity();
+  deleteSendError();
 }
 
 // Récupere les informations du formulaire
 function infoForm() {
-  const formKey = {
+  var formKey = {
     infoForm: {
       firstName: firstName.value,
       lastName: lastName.value,
@@ -48,15 +50,21 @@ function infoForm() {
   return formKey;
 }
 
+let responseCheck = [];
+
 // Contrôle les données saisie dans le formulaire a l'aide des regex
 function checkFormValidity(event) {
+  const errorWindowTarget = event;
+
   // Regex
   const myRegex = /^(?!\s*$).+/;
   const myRegex_letter = /^[a-zA-Z-\s]{2,20}$/;
   const myRegex_email =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   //  Error de saisie
+
   const hasErrorForFirstname = checkInputValidityAndDisplayErrorIfNeeded(
+    errorWindowTarget,
     firstName,
     "errorMsg-first",
     "Veuillez entrer 2 caractères ou plus pour le champ du prénon.",
@@ -64,6 +72,7 @@ function checkFormValidity(event) {
   );
 
   const hasErrorForlastname = checkInputValidityAndDisplayErrorIfNeeded(
+    errorWindowTarget,
     lastName,
     "errorMsg-last",
     "Veuillez entrer 2 caractères ou plus pour le champ du Nom.",
@@ -71,6 +80,7 @@ function checkFormValidity(event) {
   );
 
   const hasErrorForEmail = checkInputValidityAndDisplayErrorIfNeeded(
+    errorWindowTarget,
     email,
     "errorMsg-email",
     "Veuillez entrer email valide.",
@@ -78,38 +88,66 @@ function checkFormValidity(event) {
   );
 
   const hasErrorForDateOfBirth = checkInputValidityAndDisplayErrorIfNeeded(
+    errorWindowTarget,
     birthdate,
     "errorMsg-birthdate",
     "Veuillez entrer votre date de naissance",
     myRegex
   );
+  const hasErrorForTournoi = checkboxEvent(
+    tournoi,
+    "errorMsg-tournoi",
+    "Veuillez selectionné un tournoi"
+  );
+  console.log(hasErrorForTournoi);
 
-  const hasErrorForTournoi = checkboxEvent();
+  const hasErrorForCondition = checkboxConditionError(
+    "errorMsg-condition",
+    "Veuillez acceptez les conditions"
+  );
 
   if (
     !hasErrorForFirstname ||
     !hasErrorForlastname ||
     !hasErrorForEmail ||
     !hasErrorForDateOfBirth ||
-    !hasErrorForTournoi
+    !hasErrorForTournoi ||
+    !hasErrorForCondition
   ) {
     return false;
   } else {
     return true;
   }
 }
-let responseCheck = [];
 
-function checkboxEvent() {
-  tournoi.forEach((checkbox) => {
+// formData[5].addEventListener("change", (e) => {
+//   checkboxEvent(e);
+// });
+
+// function checkboxEvent(e, selectInput, selectErrorMsg, messageError) {
+//   console.log(e.target.checked);
+//   if (e.target.checked == "false") {
+//     console.log(e.target.checked);
+//     document.getElementById("errorMsg-tournoi").innerHTML =
+//       "Veuillez selectionné un tournoi";
+//     return false;
+//   } else {
+//     console.log(e);
+//     document.getElementById("errorMsg-tournoi").innerHTML = "";
+//     return true;
+//   }
+// }
+
+function checkboxEvent(selectInput, selectErrorMsg, messageError) {
+  selectInput.forEach((checkbox) => {
     checkbox.addEventListener("change", (e) => {
+      console.log(e);
       if (e.target.checked === false) {
-        document.getElementById("errorMsg-tournoi").innerHTML =
-          "Veuillez selectionner un tournoi";
+        document.getElementById(selectErrorMsg).innerHTML = messageError;
         responseCheck.push("false");
         return false;
       } else {
-        document.getElementById("errorMsg-tournoi").innerHTML = "";
+        document.getElementById(selectErrorMsg).innerHTML = "";
         responseCheck.push("true");
         return true;
       }
@@ -117,52 +155,129 @@ function checkboxEvent() {
   });
 
   if (responseCheck[0] === "true") {
-    console.log("check true");
     return true;
   } else {
-    console.log("check false");
+    document.getElementById(selectErrorMsg).innerHTML = messageError;
     return false;
   }
 }
 
+formData.forEach((form) =>
+  form.addEventListener("input", checkboxConditionError)
+);
+
+function checkboxConditionError(selectErrorMsg, messageError2) {
+  if (selectCheckboxCondition.checked === true) {
+    document.getElementById("errorMsg-condition").innerHTML = "";
+    return true;
+  } else {
+    document.getElementById("errorMsg-condition").innerHTML =
+      "Veuillez acceptez les conditions";
+    return false;
+  }
+}
+
+function deleteSendError() {
+  test.forEach((deleteSendErrorLink) =>
+    deleteSendErrorLink.addEventListener("input", (e) => {
+      const errorWindowTarget = e.target.parentElement.attributes[1];
+      const errorWindow = errorWindowTarget;
+      const msgError = e.target.parentElement.children[4];
+      const value = e.target.value;
+      console.log(value);
+      errorWindow.value = true;
+      if (value !== "") {
+        msgError.innerHTML = null;
+      }
+      console.log(value);
+      if (value.length === 2) {
+        console.log("OK");
+        errorWindow.value = true;
+      } else {
+        console.log("KO");
+        errorWindow.value = false;
+      }
+    })
+  );
+}
+
 function checkInputValidityAndDisplayErrorIfNeeded(
+  e,
   inputToCheck,
   selectorForErrorMessage,
   errorMessage,
   myRegex
 ) {
-  formData.forEach((form) =>
-    form.addEventListener("input", (e) => {
-      const errorWindowTarget = e.target.parentElement.attributes[1];
-      const errorWindow = errorWindowTarget;
-
-      if (inputToCheck.value.trim() == "") {
-        document.getElementById(selectorForErrorMessage).innerHTML =
-          errorMessage;
-        return false;
-      } else if (myRegex.test(inputToCheck.value.trim()) == false) {
-        document.getElementById(selectorForErrorMessage).innerHTML =
-          errorMessage;
-        errorWindow.value = true;
-        return false;
-      } else if (myRegex.test(inputToCheck.value.trim()) == true) {
-        document.getElementById(selectorForErrorMessage).innerHTML = "";
-        errorWindow.value = false;
-      }
-    })
-  );
-
+  deleteSendError();
   if (inputToCheck.value.trim() == "") {
-    // document.getElementById(selectorForErrorMessage).innerHTML = errorMessage;
+    document.getElementById(selectorForErrorMessage).innerHTML = errorMessage;
     return false;
   } else if (myRegex.test(inputToCheck.value.trim()) == false) {
     document.getElementById(selectorForErrorMessage).innerHTML = errorMessage;
-  } else if (myRegex.test(inputToCheck.value.trim()) == true) {
-    document.getElementById(selectorForErrorMessage).innerHTML = "";
+
+    return false;
+  } else {
     return true;
   }
-  return false;
+
+  // const target = e.target;
+  // const errorWindowTarget = e.target.parentElement.attributes[1];
+  // const errorWindow = errorWindowTarget;
+
+  // if (inputToCheck.value.trim() === "") {
+  //   document.getElementById(selectorForErrorMessage).innerHTML = errorMessage;
+  //   return false;
+  // } else if (myRegex.test(inputToCheck.value.trim()) === false) {
+  //   document.getElementById(selectorForErrorMessage).innerHTML = errorMessage;
+  //   errorWindow.value = "true";
+  //   return false;
+  // } else {
+  //   document.getElementById(selectorForErrorMessage).innerHTML = "";
+  //   // errorWindow.value = "false"; @TODO probleme
+  //   return true;
+  // }
 }
+
+// function checkInputValidityAndDisplayErrorIfNeeded(
+//   inputToCheck,
+//   selectorForErrorMessage,
+//   errorMessage,
+//   myRegex
+// ) {
+//   formData.forEach((form) =>
+//     form.addEventListener("input", (e) => {
+//       const errorWindowTarget = e.target.parentElement.attributes[1];
+//       const errorWindow = errorWindowTarget;
+
+//       if (inputToCheck.value.trim() == "") {
+//         document.getElementById(selectorForErrorMessage).innerHTML =
+//           errorMessage;
+//         return false;
+//       } else if (myRegex.test(inputToCheck.value.trim()) == false) {
+//         document.getElementById(selectorForErrorMessage).innerHTML =
+//           errorMessage;
+//         errorWindow.value = true;
+//         return false;
+//       } else if (myRegex.test(inputToCheck.value.trim()) == true) {
+//         document.getElementById(selectorForErrorMessage).innerHTML = "";
+//         errorWindow.value = false;
+//       } else {
+//         console.log("erreur");
+//       }
+//     })
+//   );
+
+//   if (inputToCheck.value.trim() == "") {
+//     document.getElementById(selectorForErrorMessage).innerHTML = errorMessage;
+//     return false;
+//   } else if (myRegex.test(inputToCheck.value.trim()) == false) {
+//     document.getElementById(selectorForErrorMessage).innerHTML = errorMessage;
+//   } else if (myRegex.test(inputToCheck.value.trim()) == true) {
+//     document.getElementById(selectorForErrorMessage).innerHTML = "";
+//     return true;
+//   }
+//   return false;
+// }
 
 const btnClose = document.querySelector(".close");
 btnClose.addEventListener("click", () => {
@@ -171,11 +286,15 @@ btnClose.addEventListener("click", () => {
 });
 
 // Envoyer les données du formulaire
-const btn = document.querySelector(".btn-submit");
 
+btnSubmit.addEventListener("submit", (event) => {
+  console.log(event);
+  validate(event);
+});
 function validate(event) {
   event.preventDefault();
-  const check = checkFormValidity();
+  // checkFormValidity(event);
+  const check = checkFormValidity(event);
   if (check === true) {
     console.log("true");
     confirmationPage.style.display = "block";
@@ -183,15 +302,14 @@ function validate(event) {
     console.log("false");
     confirmationPage.style.display = "none";
   }
-  if (responseCheck[0] === "true") {
-    console.log("check true");
-    return true;
-  } else {
-    document.getElementById("errorMsg-tournoi").innerHTML =
-      "Veuillez selectionner un tournoi";
-    console.log("check false");
-    return false;
-  }
+  // if (responseCheck[0] === "true") {
+  //   return true;
+  // } else {
+  //   document.getElementById("errorMsg-tournoi").innerHTML =
+  //     "Veuillez selectionner un tournoi";
+
+  //   return false;
+  // }
   // infoForm();
 }
 
