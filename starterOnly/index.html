@@ -54,7 +54,7 @@
 
       <div class="bground">
         <div class="content">
-          <span class="close"></span>
+          <span class="close close-confirm"></span>
           <div class="modal-body">
             <form
               name="reserve"
@@ -73,7 +73,7 @@
                   minlength="2"
                 
                 /><br>
-                <p id="errorMsg-first"></p>
+                <p class="error-text"id="errorMsg-first"></p>
               </div>
               <div
                 class="formData"  data-error-visible="false">
@@ -84,7 +84,7 @@
                   id="last"
                   name="last"
                 /><br>
-                <p id="errorMsg-last"></p>
+                <p class="error-text" id="errorMsg-last"></p>
               </div>
               <div
                 class="formData"  data-error-visible="false">
@@ -95,7 +95,7 @@
                   id="email"
                   name="email"
                 /><br>
-                <p id="errorMsg-email"></p>
+                <p class="error-text" id="errorMsg-email"></p>
               </div>
               <div
                 class="formData"  data-error-visible="false">
@@ -106,14 +106,14 @@
                   id="birthdate"
                   name="birthdate"
                 /><br>
-                <p id="errorMsg-birthdate"></p>
+                <p class="error-text" id="errorMsg-birthdate"></p>
               </div>
               <div
                 class="formData" data-error-visible="" >
                 <label>À combien de tournois GameOn avez-vous déjà participé ?</label><br>
                 <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99" value="0">
               <br>
-                <p id="errorMsg-birthdate"></p>
+                <p class="error-text" id="errorMsg-birthdate"></p>
               </div>
               <p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
               <div
@@ -184,11 +184,9 @@
                   <span class="checkbox-icon"></span>
                   Portland</label
                 >
-                <p id="errorMsg-tournoi"></p>
+                <p class="error-text" id="errorMsg-tournoi"></p>
               </div>
-            
-
-              <div
+                          <div
                 class="formData" >
                 <input
                   class="checkbox-input"
@@ -201,7 +199,7 @@
                   J'ai lu et accepté les conditions d'utilisation.
                 </label>
                 <br>
-                <p id="errorMsg-condition"></p>
+                <p class="error-text" id="errorMsg-condition"></p>
                 <input class="checkbox-input" type="checkbox" id="checkbox2" />
                 <label class="checkbox2-label" for="checkbox2">
                   <span class="checkbox-icon"></span>
@@ -222,9 +220,9 @@
       <!-- Page de confirmation -->
       <div class="bground2">
         <div class="content2">
-          <span class="close"></span>
+          <span class="close close-confirm"></span>
           <p class="texte-comfirmation">Merci pour votre inscription</p>
-          <button class="btn-close">Fermer</button>
+          <button class="btn-close close-confirm">Fermer</button>
         </div>
       </div>
     </main>

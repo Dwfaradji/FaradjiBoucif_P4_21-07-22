@@ -23,7 +23,8 @@ const selectCheckboxCondition = document.getElementById("checkbox1");
 const errorMsg = document.querySelectorAll(".errorMessage");
 const btnSubmit = document.querySelector(".btn-submit");
 const confirmationPage = document.querySelector(".bground2");
-const test = document.querySelectorAll(".text-control");
+const textControl = document.querySelectorAll(".text-control");
+
 // launch modal event
 modalBtn.forEach((btn) => {
   btn.addEventListener("click", launchModal);
@@ -32,39 +33,19 @@ modalBtn.forEach((btn) => {
 // launch modal form
 function launchModal(e) {
   modalbg.style.display = "block";
-  infoForm();
   deleteSendError();
+  checkboxEvent();
 }
-
-// Récupere les informations du formulaire
-function infoForm() {
-  var formKey = {
-    infoForm: {
-      firstName: firstName.value,
-      lastName: lastName.value,
-      email: email.value,
-      DateOfBirth: birthdate.value,
-      QuantityTournoi: quantity.value,
-    },
-  };
-  return formKey;
-}
-
-let responseCheck = [];
 
 // Contrôle les données saisie dans le formulaire a l'aide des regex
-function checkFormValidity(event) {
-  const errorWindowTarget = event;
-
+function checkFormValidity() {
   // Regex
   const myRegex = /^(?!\s*$).+/;
   const myRegex_letter = /^[a-zA-Z-\s]{2,20}$/;
   const myRegex_email =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  //  Error de saisie
 
   const hasErrorForFirstname = checkInputValidityAndDisplayErrorIfNeeded(
-    errorWindowTarget,
     firstName,
     "errorMsg-first",
     "Veuillez entrer 2 caractères ou plus pour le champ du prénon.",
@@ -72,7 +53,6 @@ function checkFormValidity(event) {
   );
 
   const hasErrorForlastname = checkInputValidityAndDisplayErrorIfNeeded(
-    errorWindowTarget,
     lastName,
     "errorMsg-last",
     "Veuillez entrer 2 caractères ou plus pour le champ du Nom.",
@@ -80,7 +60,6 @@ function checkFormValidity(event) {
   );
 
   const hasErrorForEmail = checkInputValidityAndDisplayErrorIfNeeded(
-    errorWindowTarget,
     email,
     "errorMsg-email",
     "Veuillez entrer email valide.",
@@ -88,24 +67,27 @@ function checkFormValidity(event) {
   );
 
   const hasErrorForDateOfBirth = checkInputValidityAndDisplayErrorIfNeeded(
-    errorWindowTarget,
     birthdate,
     "errorMsg-birthdate",
     "Veuillez entrer votre date de naissance",
     myRegex
   );
+
   const hasErrorForTournoi = checkboxEvent(
-    tournoi,
     "errorMsg-tournoi",
     "Veuillez selectionné un tournoi"
   );
-  console.log(hasErrorForTournoi);
 
   const hasErrorForCondition = checkboxConditionError(
     "errorMsg-condition",
     "Veuillez acceptez les conditions"
   );
 
+  if (response == false) {
+    document.getElementById("errorMsg-tournoi").innerHTML =
+      "Veuillez selectionné un tournoi";
+  }
+  // check si toute les valeur son true ou si elle sont false
   if (
     !hasErrorForFirstname ||
     !hasErrorForlastname ||
@@ -119,90 +101,8 @@ function checkFormValidity(event) {
     return true;
   }
 }
-
-// formData[5].addEventListener("change", (e) => {
-//   checkboxEvent(e);
-// });
-
-// function checkboxEvent(e, selectInput, selectErrorMsg, messageError) {
-//   console.log(e.target.checked);
-//   if (e.target.checked == "false") {
-//     console.log(e.target.checked);
-//     document.getElementById("errorMsg-tournoi").innerHTML =
-//       "Veuillez selectionné un tournoi";
-//     return false;
-//   } else {
-//     console.log(e);
-//     document.getElementById("errorMsg-tournoi").innerHTML = "";
-//     return true;
-//   }
-// }
-
-function checkboxEvent(selectInput, selectErrorMsg, messageError) {
-  selectInput.forEach((checkbox) => {
-    checkbox.addEventListener("change", (e) => {
-      console.log(e);
-      if (e.target.checked === false) {
-        document.getElementById(selectErrorMsg).innerHTML = messageError;
-        responseCheck.push("false");
-        return false;
-      } else {
-        document.getElementById(selectErrorMsg).innerHTML = "";
-        responseCheck.push("true");
-        return true;
-      }
-    });
-  });
-
-  if (responseCheck[0] === "true") {
-    return true;
-  } else {
-    document.getElementById(selectErrorMsg).innerHTML = messageError;
-    return false;
-  }
-}
-
-formData.forEach((form) =>
-  form.addEventListener("input", checkboxConditionError)
-);
-
-function checkboxConditionError(selectErrorMsg, messageError2) {
-  if (selectCheckboxCondition.checked === true) {
-    document.getElementById("errorMsg-condition").innerHTML = "";
-    return true;
-  } else {
-    document.getElementById("errorMsg-condition").innerHTML =
-      "Veuillez acceptez les conditions";
-    return false;
-  }
-}
-
-function deleteSendError() {
-  test.forEach((deleteSendErrorLink) =>
-    deleteSendErrorLink.addEventListener("input", (e) => {
-      const errorWindowTarget = e.target.parentElement.attributes[1];
-      const errorWindow = errorWindowTarget;
-      const msgError = e.target.parentElement.children[4];
-      const value = e.target.value;
-      console.log(value);
-      errorWindow.value = true;
-      if (value !== "") {
-        msgError.innerHTML = null;
-      }
-      console.log(value);
-      if (value.length === 2) {
-        console.log("OK");
-        errorWindow.value = true;
-      } else {
-        console.log("KO");
-        errorWindow.value = false;
-      }
-    })
-  );
-}
-
+// Check les erreur des input
 function checkInputValidityAndDisplayErrorIfNeeded(
-  e,
   inputToCheck,
   selectorForErrorMessage,
   errorMessage,
@@ -214,105 +114,103 @@ function checkInputValidityAndDisplayErrorIfNeeded(
     return false;
   } else if (myRegex.test(inputToCheck.value.trim()) == false) {
     document.getElementById(selectorForErrorMessage).innerHTML = errorMessage;
-
     return false;
   } else {
     return true;
   }
-
-  // const target = e.target;
-  // const errorWindowTarget = e.target.parentElement.attributes[1];
-  // const errorWindow = errorWindowTarget;
-
-  // if (inputToCheck.value.trim() === "") {
-  //   document.getElementById(selectorForErrorMessage).innerHTML = errorMessage;
-  //   return false;
-  // } else if (myRegex.test(inputToCheck.value.trim()) === false) {
-  //   document.getElementById(selectorForErrorMessage).innerHTML = errorMessage;
-  //   errorWindow.value = "true";
-  //   return false;
-  // } else {
-  //   document.getElementById(selectorForErrorMessage).innerHTML = "";
-  //   // errorWindow.value = "false"; @TODO probleme
-  //   return true;
-  // }
+}
+// supprime les messages d'erreur
+function deleteSendError() {
+  textControl.forEach((deleteSendErrorLink) =>
+    deleteSendErrorLink.addEventListener("input", (e) => {
+      const errorWindowTarget = e.target.parentElement.attributes[1];
+      const errorWindow = errorWindowTarget;
+      const msgError = e.target.parentElement.children[4];
+      const value = e.target.value;
+      errorWindow.value = true;
+      if (value !== "") {
+        msgError.innerHTML = null;
+      }
+      if (value.length === 2) {
+        console.log("OK");
+        errorWindow.value = true;
+      } else {
+        console.log("KO");
+        errorWindow.value = false;
+      }
+    })
+  );
 }
 
-// function checkInputValidityAndDisplayErrorIfNeeded(
-//   inputToCheck,
-//   selectorForErrorMessage,
-//   errorMessage,
-//   myRegex
-// ) {
-//   formData.forEach((form) =>
-//     form.addEventListener("input", (e) => {
-//       const errorWindowTarget = e.target.parentElement.attributes[1];
-//       const errorWindow = errorWindowTarget;
+// check si un tournoi a été selectionné ou pas
+let response = false;
+function checkboxEvent(selectInputMsg, selectMsgError) {
+  formData[5].addEventListener("change", (e) => {
 
-//       if (inputToCheck.value.trim() == "") {
-//         document.getElementById(selectorForErrorMessage).innerHTML =
-//           errorMessage;
-//         return false;
-//       } else if (myRegex.test(inputToCheck.value.trim()) == false) {
-//         document.getElementById(selectorForErrorMessage).innerHTML =
-//           errorMessage;
-//         errorWindow.value = true;
-//         return false;
-//       } else if (myRegex.test(inputToCheck.value.trim()) == true) {
-//         document.getElementById(selectorForErrorMessage).innerHTML = "";
-//         errorWindow.value = false;
-//       } else {
-//         console.log("erreur");
-//       }
-//     })
-//   );
+    if (e.target.checked == false) {
+      response = false;
+      document.getElementById("errorMsg-tournoi").innerHTML =
+        "Veuillez selectionné un tournoi";
+    } else {
+      response = true;
+      document.getElementById("errorMsg-tournoi").innerHTML = "";
+    }
+  });
+  return response;
+}
 
-//   if (inputToCheck.value.trim() == "") {
-//     document.getElementById(selectorForErrorMessage).innerHTML = errorMessage;
-//     return false;
-//   } else if (myRegex.test(inputToCheck.value.trim()) == false) {
-//     document.getElementById(selectorForErrorMessage).innerHTML = errorMessage;
-//   } else if (myRegex.test(inputToCheck.value.trim()) == true) {
-//     document.getElementById(selectorForErrorMessage).innerHTML = "";
-//     return true;
-//   }
-//   return false;
-// }
+// check si les conditions on été cocher ou non
 
-const btnClose = document.querySelector(".close");
-btnClose.addEventListener("click", () => {
-  modalbg.style.display = "none";
-  console.log(btnClose);
+selectCheckboxCondition.addEventListener("input", checkboxConditionError);
+function checkboxConditionError(selectErrorMsg, messageError) {
+  if (selectCheckboxCondition.checked === true) {
+    document.getElementById("errorMsg-condition").innerHTML = "";
+    return true;
+  } else {
+    document.getElementById("errorMsg-condition").innerHTML =
+      "Veuillez acceptez les conditions";
+    return false;
+  }
+}
+
+// Ferme les fenetres
+const btnCloseConfirm = document.querySelectorAll(".close-confirm");
+btnCloseConfirm.forEach((btn) =>
+  btn.addEventListener("click", () => {
+    confirmationPage.style.display = "none";
+    modalbg.style.display = "none";
+    location.reload();
+  })
+);
+
+btnSubmit.addEventListener("submit", (event) => {
+  validate(event);
 });
 
 // Envoyer les données du formulaire
-
-btnSubmit.addEventListener("submit", (event) => {
-  console.log(event);
-  validate(event);
-});
 function validate(event) {
   event.preventDefault();
-  // checkFormValidity(event);
-  const check = checkFormValidity(event);
+  const check = checkFormValidity();
   if (check === true) {
-    console.log("true");
     confirmationPage.style.display = "block";
   } else {
-    console.log("false");
     confirmationPage.style.display = "none";
   }
-  // if (responseCheck[0] === "true") {
-  //   return true;
-  // } else {
-  //   document.getElementById("errorMsg-tournoi").innerHTML =
-  //     "Veuillez selectionner un tournoi";
-
-  //   return false;
-  // }
-  // infoForm();
 }
 
+// Récupere les informations du formulaire
+// function infoForm() {
+//   let formKey = {
+//     infoForm: {
+//       firstName: firstName.value,
+//       lastName: lastName.value,
+//       email: email.value,
+//       DateOfBirth: birthdate.value,
+//       QuantityTournoi: quantity.value,
+//     },
+//   };
+//   return formKey;
+// }
 // const myRegex_letter = /^[a-zA-Z-\s]{3,20}$/;
 // const myRegex_email =
 //   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

@@ -575,12 +575,8 @@ footer {
   }
 }
 
-/* ajout css */
-/* 
-.errorMessage {
-  display: none;
+.error-text {
+  font-size: 1.1rem;
+  color: rgb(252, 68, 47);
+  opacity: 1;
 }
-.errorMsg,
-.errorMsg-first {
-  display: none;
-} */
