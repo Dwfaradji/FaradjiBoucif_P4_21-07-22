@@ -58,13 +58,13 @@
           <div class="modal-body">
             <form
               name="reserve"
-              onsubmit="return validate(event)"
+              id="submit-form"
               action="index.html"
               method="get"
             >
               <div
                 class="formData"   data-error-visible="false">
-                <label>Prénom</label><br>
+                <label for="first">Prénom</label><br>
                 <input
                   class="text-control"
                   type="text"
@@ -73,47 +73,47 @@
                   minlength="2"
                 
                 /><br>
-                <p class="error-text"id="errorMsg-first"></p>
+                <span class="error-text"id="errorMsg-first"></span>
               </div>
               <div
                 class="formData"  data-error-visible="false">
-                <label>Nom</label><br>
+                <label for="last" >Nom</label><br>
                 <input
                   class="text-control"
                   type="text"
                   id="last"
                   name="last"
                 /><br>
-                <p class="error-text" id="errorMsg-last"></p>
+                <span class="error-text" id="errorMsg-last"></span>
               </div>
               <div
                 class="formData"  data-error-visible="false">
-                <label>E-mail</label><br>
+                <label for="email">E-mail</label><br>
                 <input
                   class="text-control"
                   type="email"
                   id="email"
                   name="email"
                 /><br>
-                <p class="error-text" id="errorMsg-email"></p>
+                <span class="error-text" id="errorMsg-email"></span>
               </div>
               <div
                 class="formData"  data-error-visible="false">
-                <label>Date de naissance</label><br>
+                <label for="birthdate" >Date de naissance</label><br>
                 <input
                   class="text-control"
                   type="date"
                   id="birthdate"
                   name="birthdate"
                 /><br>
-                <p class="error-text" id="errorMsg-birthdate"></p>
+                <span class="error-text" id="errorMsg-birthdate"></span>
               </div>
               <div
                 class="formData" data-error-visible="" >
-                <label>À combien de tournois GameOn avez-vous déjà participé ?</label><br>
+                <label for="quantity">À combien de tournois GameOn avez-vous déjà participé ?</label><br>
                 <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99" value="0">
               <br>
-                <p class="error-text" id="errorMsg-birthdate"></p>
+                <span class="error-text" id="errorMsg-birthdate"></span>
               </div>
               <p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
               <div
@@ -183,8 +183,8 @@
                 <label class="checkbox-label" for="location6">
                   <span class="checkbox-icon"></span>
                   Portland</label
-                >
-                <p class="error-text" id="errorMsg-tournoi"></p>
+                ><br>
+                <span class="error-text" id="errorMsg-tournoi"></span>
               </div>
                           <div
                 class="formData" >
@@ -231,6 +231,6 @@
         Copyright 2014 - 2022, GameOn Inc.
       </p>
     </footer>
-    <script src="modal.js"></script>
+    <script type="module" src="modal.mjs"></script>
   </body>
 </html>
