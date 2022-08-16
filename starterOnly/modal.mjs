@@ -1,4 +1,8 @@
-import { checkInputOnlive, checkboxEvent, checkTournoiValid } from "./toto.mjs";
+import {
+  checkInputOnlive,
+  checkboxEvent,
+  checkTournoiValid,
+} from "./fonction.mjs";
 
 function editNav() {
   var x = document.getElementById("myTopnav");
@@ -70,15 +74,9 @@ function checkFormValidity() {
     myRegex
   );
 
-  const hasErrorForTournoi = checkboxEvent(
-    "errorMsg-tournoi",
-    "Veuillez selectionné un tournoi"
-  );
+  const hasErrorForTournoi = checkboxEvent();
 
-  const hasErrorForCondition = checkboxConditionError(
-    "errorMsg-condition",
-    "Veuillez acceptez les conditions"
-  );
+  const hasErrorForCondition = checkboxConditionError();
 
   // Check si toute les valeur son true ou si elle sont false et return true ou false
   if (
