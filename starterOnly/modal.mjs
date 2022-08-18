@@ -111,24 +111,7 @@ function checkInputValidityAndDisplayErrorIfNeeded(
   }
 }
 
-// Check si un tournoi a été selectionné ou pas et return true ou false
-// let checkTournoiValid = false;
-// function checkboxEvent() {
-//   formData[5].addEventListener("change", (e) => {
-//     if (e.target.checked == false) {
-//       checkTournoiValid = false;
-//       document.getElementById("errorMsg-tournoi").innerHTML =
-//         "Veuillez selectionné un tournoi";
-//     } else {
-//       checkTournoiValid = true;
-//       document.getElementById("errorMsg-tournoi").innerHTML = "";
-//     }
-//   });
-//   return checkTournoiValid;
-// }
-
 // Check si les conditions on été cocher ou non et return true ou false
-
 selectCheckboxCondition.addEventListener("input", checkboxConditionError);
 function checkboxConditionError() {
   if (selectCheckboxCondition.checked === true) {

@@ -1,21 +1,22 @@
+// Check les input saisie en direct et affiche les messages tant que les bonne valeur n'on pas été saisie
 function checkInputOnlive(form) {
-  const myRegex = /^(?!\s*$).+/;
   const myRegex_letter = /^[a-zA-Z-\s]{2,20}$/;
   const myRegex_email =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
   const errorWindow = form.target.parentElement.attributes[1];
   const errorW = errorWindow;
   const errorText = form.target.parentElement.children[4];
   if (form.target.id === "first") {
     if (myRegex_letter.test(form.target.value.trim()) == false) {
       errorW.value = true;
+      errorText.style.display = "block";
       document.getElementById("errorMsg-first").innerHTML =
         " Veuillez entrer 2 caractères ou plus pour le champ du prénon.";
       return false;
     } else {
       errorW.value = false;
       errorText.style.display = "none";
+      return true;
     }
   } else if (form.target.id == "last") {
     if (myRegex_letter.test(form.target.value.trim()) == false) {
@@ -56,9 +57,11 @@ function checkInputOnlive(form) {
   }
   return true;
 }
-const formData = document.querySelectorAll(".formData");
+
+// Check si un tournoi a été selectionné ou pas et return true ou false
 let checkTournoiValid = false;
 function checkboxEvent() {
+  const formData = document.querySelectorAll(".formData");
   formData[5].addEventListener("change", (e) => {
     if (e.target.checked == false) {
       checkTournoiValid = false;
