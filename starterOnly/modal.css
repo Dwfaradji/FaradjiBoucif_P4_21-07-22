@@ -34,7 +34,9 @@ img {
 
 .topnav {
   overflow: hidden;
-  margin: 3.5%;
+  margin-top: 10px;
+  padding-left: 10px;
+
 }
 
 .header-logo {
@@ -43,6 +45,7 @@ img {
 
 .main-navbar {
   float: right;
+  background-color: white;
 }
 
 .topnav a {
@@ -74,6 +77,12 @@ img {
 }
 
 @media screen and (max-width: 768px) {
+  main {
+    position: absolute;
+    top: 64px;
+    z-index: 1;
+  }
+
   .topnav a {
     display: none;
   }
@@ -87,6 +96,10 @@ img {
 @media screen and (max-width: 768px) {
   .topnav.responsive {
     position: relative;
+    z-index: 10;
+    width: 100%;
+
+
   }
 
   .topnav.responsive .icon {
@@ -110,7 +123,7 @@ img {
   .topnav a.icon {
     float: right;
     display: block;
-    margin-top: -15px;
+    /* margin-top: -15px; */
   }
 }
 
@@ -121,7 +134,7 @@ main {
   padding-top: 0.5vw;
   padding-left: 2vw;
   padding-right: 2vw;
-  margin: 1px 20px 15px;
+  /* margin: 1px 20px 15px; */
   border-radius: 2rem;
   text-align: justify;
 }
@@ -574,6 +587,7 @@ footer {
 }
 
 @media screen and (max-width: 800px) {
+
   .hero-section {
     display: block;
     box-shadow: unset;
@@ -599,7 +613,7 @@ footer {
   }
 
   .hero-text {
-    width: unset;
+    width: 80%;
     font-size: 1.5rem;
   }
 

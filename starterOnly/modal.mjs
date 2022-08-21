@@ -4,6 +4,8 @@ import {
   checkTournoiValid,
 } from "./fonction.mjs";
 
+const navIcon = document.getElementById("editNav");
+navIcon.addEventListener("click", editNav);
 function editNav() {
   var x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
